@@ -77,7 +77,7 @@ export function SocialMedia() {
             }}
             transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
           >
-            <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
               REDES SOCIALES
             </span>
           </motion.h2>
@@ -90,7 +90,7 @@ export function SocialMedia() {
           {socialNetworks.map((network, index) => {
             const Icon = network.icon
             return (
-              <motion.div
+              <motion.a
                 key={network.name}
                 href={network.link}
                 initial={{ opacity: 0, scale: 0 }}
@@ -98,25 +98,26 @@ export function SocialMedia() {
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.05, rotateZ: 3 }}
                 whileTap={{ scale: 0.95 }}
+                className="block"
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm border-2 border-border hover:border-accent transition-all duration-300 h-full cursor-pointer group">
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
-                    className={`w-16 h-16 md:w-20 md:h-20 mb-4 rounded-2xl bg-gradient-to-br ${network.color} flex items-center justify-center mx-auto shadow-lg group-hover:shadow-2xl transition-shadow`}
+                    className={`w-16 h-16 md:w-20 md:h-20 mb-4 rounded-2xl bg-linear-to-br ${network.color} flex items-center justify-center mx-auto shadow-lg group-hover:shadow-2xl transition-shadow`}
                   >
                     <Icon className="w-8 h-8 md:w-10 md:h-10 text-white" />
                   </motion.div>
                   <h3 className="text-lg md:text-xl font-bold mb-2 text-center text-foreground">{network.name}</h3>
                   <p className="text-muted-foreground text-center text-sm">{network.description}</p>
                 </Card>
-              </motion.div>
+              </motion.a>
             )
           })}
         </div>
 
         <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}>
-          <Card className="p-6 md:p-8 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-md border-2 border-accent/50 animate-pulse-border max-w-4xl mx-auto">
+          <Card className="p-6 md:p-8 bg-linear-to-br from-card/80 to-card/40 backdrop-blur-md border-2 border-accent/50 animate-pulse-border max-w-4xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center text-foreground">
               {"Aspectos Importantes"}
             </h3>
@@ -171,7 +172,7 @@ export function SocialMedia() {
                   <ul className="space-y-2">
                     {service.items.map((item) => (
                       <li key={item} className="flex items-start gap-2 text-sm md:text-base text-muted-foreground">
-                        <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-accent mt-1.5 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
