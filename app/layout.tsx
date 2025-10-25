@@ -9,7 +9,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Edutecnica - Servicios Digitales del Futuro",
-  description: "Presentación de servicios: Desarrollo Web, Correos Corporativos y Gestión de Redes Sociales",
+  description: "Presentación de servicios: Pagina web, Correos Corporativos y Gestión de Redes Sociales",
 }
 
 export default function RootLayout({

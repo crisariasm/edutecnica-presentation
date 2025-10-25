@@ -9,7 +9,7 @@ interface HeroProps {
 
 export function Hero({ setCurrentSection }: HeroProps) {
   const services = [
-    { name: "Desarrollo Web", section: 1 },
+    { name: "Pagina web", section: 1 },
     { name: "Correos Corporativos", section: 2 },
     { name: "Redes Sociales", section: 3 },
   ]

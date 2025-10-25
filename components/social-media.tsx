@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { Facebook, Instagram, Linkedin, Youtube, MessageCircle } from "lucide-react"
 import { Card } from "@/components/ui/card"
 
-// Custom X icon component to replace Twitter icon
 function XIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>

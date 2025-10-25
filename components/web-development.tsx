@@ -34,7 +34,7 @@ export function WebDevelopment() {
             transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
           >
             <span className="bg-gradient-to-r from-accent via-primary to-secondary bg-clip-text text-transparent">
-              DESARROLLO WEB
+              Pagina web
             </span>
           </motion.h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance px-4">

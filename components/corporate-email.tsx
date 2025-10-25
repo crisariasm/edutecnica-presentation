@@ -2,15 +2,44 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Mail, Send, CheckCircle2, Loader2, AlertCircle } from "lucide-react"
+import { Mail, Send, CheckCircle2, Loader2, AlertCircle, LogOut, Shield } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { PasswordProtection } from "./password-protection"
+import { useEmailAuthCleanup, useInactivityLogout } from "../hooks/use-email-security"
 
 export function CorporateEmail() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  
+  // Activar hooks de seguridad
+  useEmailAuthCleanup()
+  useInactivityLogout(10) // 10 minutos de inactividad
+  
+  // Verificar autenticación y manejar seguridad
+  useEffect(() => {
+    // Verificar si ya está autenticado al cargar
+    const authStatus = sessionStorage.getItem('email-authenticated')
+    if (authStatus === 'true') {
+      setIsAuthenticated(true)
+    }
+
+    // Solo limpiar al cambiar de página/recargar
+    const handleBeforeUnload = () => {
+      sessionStorage.removeItem('email-authenticated')
+    }
+
+    // Agregar event listener solo para cambio/recarga de página
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    // Cleanup solo al desmontar el componente
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
   const [formData, setFormData] = useState({
     to: "",
     subject: "",
@@ -32,6 +61,7 @@ export function CorporateEmail() {
           to: formData.to,
           subject: formData.subject,
           message: formData.message,
+          authToken: sessionStorage.getItem('email-authenticated'),
         }),
       })
 
@@ -59,6 +89,17 @@ export function CorporateEmail() {
     }
   }
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('email-authenticated')
+    setIsAuthenticated(false)
+  }
+
+  // Si no está autenticado, mostrar pantalla de contraseña
+  if (!isAuthenticated) {
+    return <PasswordProtection onAuthenticated={() => setIsAuthenticated(true)} />
+  }
+
+  // Si está autenticado, mostrar el componente de correos
   return (
     <section className="relative min-h-screen flex items-center justify-center py-12 md:py-20 px-4">
       <div className="container mx-auto relative z-10">
@@ -85,6 +126,28 @@ export function CorporateEmail() {
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance px-4">
             {"Sistema de comunicación profesional mediante correo electrónico"}
           </p>
+          
+          {/* Header de Seguridad */}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center justify-center gap-4 mt-6"
+          >
+            <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm">
+              <Shield className="w-4 h-4" />
+              <span>Sesión Segura Activa</span>
+            </div>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="bg-destructive/10 border-destructive/20 text-destructive hover:bg-destructive hover:text-destructive-foreground"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Cerrar Sesión
+            </Button>
+          </motion.div>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
@@ -227,4 +290,6 @@ export function CorporateEmail() {
       </div>
     </section>
   )
+
+
 }
